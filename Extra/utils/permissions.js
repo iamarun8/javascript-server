@@ -7,29 +7,29 @@ const permissions = {
     }
 }
 function hasPermission(moduleName, role, permissionType) {
-    for (const [key, value] of Object.entries(permissions)) {
-        if (key === moduleName) {
-            if (value.all.includes(role)) {
-                return true;
-            }
-            else {
-                for (const [key1, value1] of Object.entries(value)) {
-                    if (key1 == permissionType) {
-                        if (value1.includes(role)) {
-                            return true;
-                        }
-                        return false;
-                    }
-                    else {
-                        continue;
-                    }
-                }
-            }
+    if (permissions[moduleName]) {
+        if (permissions[moduleName].all.includes(role)) {
+            console.log("Role : ",role);
+            console.log("Permission : ", permissionType);
+            return true;
         }
         else {
-            continue;
+            const permissionsArray = permissions[moduleName][permissionType];
+            if (permissionsArray) {
+                console.log("Role : ", role);
+                console.log("Permission : ", permissionType);
+                if (permissionsArray.includes(role)) {
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }
-console.log(hasPermission('getUsers', 'head-trainer', 'delete'));
-
+console.log(hasPermission('getUsers', 'head-trainer', 'read'));
+// console.log("\n");
+// console.log(hasPermission('getUsers', 'trainer', 'read'));
+// console.log(hasPermission('getUsers', 'head-trainer', 'delete'));
+// console.log(hasPermission('getUsers', 'trainee', 'write'));
+// console.log(hasPermission('getUsers', 'trainee', 'delete'));
+// console.log(hasPermission('getUsers', 'trainer', 'write'));
