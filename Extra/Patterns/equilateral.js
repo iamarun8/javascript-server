@@ -1,6 +1,6 @@
-var arguments = process.argv
-function equilateral(n) {
-    pattern = "";
+// var arguments = process.argv
+export default function equilateral(n) {
+    let pattern = "";
     let space = n - 1;
 
     for (let i = 0; i < n; i++) {
@@ -20,4 +20,4 @@ function equilateral(n) {
 }
 // equilateral(10);
 
-equilateral(arguments[2])
+// equilateral(arguments[2])

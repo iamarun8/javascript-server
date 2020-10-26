@@ -1,6 +1,6 @@
-var arguments = process.argv
-function Diamond(n) {
-    pattern = "";
+// var arguments = process.argv
+export default function Diamond(n) {
+    let pattern = "";
     let space = n - 1;
 
     for (let i = 0; i < n; i++) {
@@ -31,4 +31,4 @@ function Diamond(n) {
     console.log(pattern);
 }
 // Diamond(5);
-Diamond(arguments[2]);
+// Diamond(arguments[2]);
