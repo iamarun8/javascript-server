@@ -17,7 +17,9 @@ let users = [
     }
 ];
 
-let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+let reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@successive.tech$/;
+
 
 function ValidateEmail(email) {
     return reg.test(email);

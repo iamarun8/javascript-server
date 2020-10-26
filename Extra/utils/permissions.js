@@ -1,60 +1,35 @@
-let permissions = {
+const permissions = {
     'getUsers': {
-        'all': ['head-trainer'],
-        'read': ['trainee', 'trainer'],
-        'write': ['trainer'],
-        'delete': [],
+        all: ['head-trainer'],
+        read: ['trainee', 'trainer'],
+        write: ['trainer'],
+        delete: [],
     }
 }
-
 function hasPermission(moduleName, role, permissionType) {
-
-    if (permissions[moduleName] !== undefined) {
-        console.log("Module Name found")
-        if (permissions[moduleName][permissionType] !== undefined) {
-            console.log("Permission Type found")
-            if (permissions[moduleName][permissionType] !== 'all') {
-                if (permissions[moduleName]['all'].indexOf(role) !== -1) {
-                    console.log("Role found")
-                    return true;
-                }
-            }
-            if (permissions[moduleName][permissionType].length > 0) {
-                if (permissions[moduleName][permissionType].indexOf(role) !== -1) {
-                    console.log("Role found")
-                    return true;
-                }
-                else {
-                    console.log("Role not found")
-                    return false;
-                }
+    for (const [key, value] of Object.entries(permissions)) {
+        if (key === moduleName) {
+            if (value.all.includes(role)) {
+                return true;
             }
             else {
-                console.log("No role available for delete")
-                if (role === '') {
-                    return true;
-                }
-                else {
-                    return false;
+                for (const [key1, value1] of Object.entries(value)) {
+                    if (key1 == permissionType) {
+                        if (value1.includes(role)) {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else {
+                        continue;
+                    }
                 }
             }
         }
         else {
-            console.log("Permission Type not found")
-            return false;
+            continue;
         }
     }
-    else {
-        console.log("Module Name is not found")
-        return false;
-    }
 }
-
-
-
 console.log(hasPermission('getUsers', 'head-trainer', 'delete'));
-/*---------------  test cases ---------------------*/
-// console.log(hasPermission('getUsers', 'trainee', 'read'));
-// console.log(hasPermission('getUsers', 'trainee', 'delete'));
-// console.log(hasPermission('getUsers', 'trainer', 'delete'));
 
