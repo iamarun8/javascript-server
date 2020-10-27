@@ -3,10 +3,10 @@ const permissions = {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
         write: ['trainer'],
-        delete: [],
+        delete: []
     }
 }
-function hasPermission(moduleName, role, permissionType) {
+export default function hasPermission(moduleName, role, permissionType) {
     if (permissions[moduleName]) {
         if (permissions[moduleName].all.includes(role)) {
             console.log("Role : ",role);
@@ -26,7 +26,7 @@ function hasPermission(moduleName, role, permissionType) {
         }
     }
 }
-console.log(hasPermission('getUsers', 'head-trainer', 'read'));
+//console.log(hasPermission('getUsers', 'head-trainer', 'read'));
 // console.log("\n");
 // console.log(hasPermission('getUsers', 'trainer', 'read'));
 // console.log(hasPermission('getUsers', 'head-trainer', 'delete'));

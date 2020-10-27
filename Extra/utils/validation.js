@@ -1,33 +1,29 @@
-let users = [
-    {
-        traineeEmail: 'trainee1@@successive.tech',
-        reviewerEmail: 'reviewer1@successive.tech',
-    },
-    {
-        traineeEmail: 'trainee2@successive.tech',
-        reviewerEmail: 'reviewer2@successive.tech',
-    },
-    {
-        traineeEmail: 'trainee3@@successive.tech',
-        reviewerEmail: 'reviewer3@successive.tech',
-    },
-    {
-        traineeEmail: 'trainee4@successive.tech',
-        reviewerEmail: 'reviewer4@successive.tech',
-    }
-];
+import ValidateEmail  from "./helpers";
+// let users = [
+//     {
+//         traineeEmail: 'trainee1@@successive.tech',
+//         reviewerEmail: 'reviewer1@successive.tech',
+//     },
+//     {
+//         traineeEmail: 'trainee2@successive.tech',
+//         reviewerEmail: 'reviewer2@successive.tech',
+//     },
+//     {
+//         traineeEmail: 'trainee3@@successive.tech',
+//         reviewerEmail: 'reviewer3@successive.tech',
+//     },
+//     {
+//         traineeEmail: 'trainee4@successive.tech',
+//         reviewerEmail: 'reviewer4@successive.tech',
+//     }
+// ];
 
 
-let reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@successive.tech$/;
 
-
-function ValidateEmail(email) {
-    return reg.test(email);
-}
 
 let valid = [];
 let invalid = [];
-function ValidateUser(users) {
+export default function ValidateUser(users) {
     for (let i = 0; i < users.length; i++) {
         if (ValidateEmail(users[i].traineeEmail) && ValidateEmail(users[i].reviewerEmail)) {
             valid.push(users[i]);
@@ -43,4 +39,4 @@ function ValidateUser(users) {
 
 }
 
-ValidateUser(users)
+// ValidateUser(users)
