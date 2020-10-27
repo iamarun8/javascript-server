@@ -1,6 +1,6 @@
-import {Diamond, equilateral} from "./Patterns";
-import { hasPermission, ValidateUser}  from "./utils";
-import { permissions ,users} from "./constants";
+import { Diamond, equilateral } from "./Patterns";
+import { hasPermission, ValidateUser }  from "./utils";
+import { users } from "./constants";
 
 
 

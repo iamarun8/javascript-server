@@ -1,25 +1,4 @@
 import ValidateEmail  from "./helpers";
-// let users = [
-//     {
-//         traineeEmail: 'trainee1@@successive.tech',
-//         reviewerEmail: 'reviewer1@successive.tech',
-//     },
-//     {
-//         traineeEmail: 'trainee2@successive.tech',
-//         reviewerEmail: 'reviewer2@successive.tech',
-//     },
-//     {
-//         traineeEmail: 'trainee3@@successive.tech',
-//         reviewerEmail: 'reviewer3@successive.tech',
-//     },
-//     {
-//         traineeEmail: 'trainee4@successive.tech',
-//         reviewerEmail: 'reviewer4@successive.tech',
-//     }
-// ];
-
-
-
 
 let valid = [];
 let invalid = [];
@@ -39,4 +18,3 @@ export default function ValidateUser(users) {
 
 }
 
-// ValidateUser(users)
