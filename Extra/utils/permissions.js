@@ -1,20 +1,14 @@
-const permissions = {
-    'getUsers': {
-        all: ['head-trainer'],
-        read: ['trainee', 'trainer'],
-        write: ['trainer'],
-        delete: [],
-    }
-}
-function hasPermission(moduleName, role, permissionType) {
-    if (permissions[moduleName]) {
-        if (permissions[moduleName].all.includes(role)) {
+import { permissions as Permissions } from "../constants";
+
+export default function hasPermission(moduleName, role, permissionType) {
+    if (Permissions[moduleName]) {
+        if (Permissions[moduleName].all.includes(role)) {
             console.log("Role : ",role);
             console.log("Permission : ", permissionType);
             return true;
         }
         else {
-            const permissionsArray = permissions[moduleName][permissionType];
+            const permissionsArray = Permissions[moduleName][permissionType];
             if (permissionsArray) {
                 console.log("Role : ", role);
                 console.log("Permission : ", permissionType);
@@ -26,10 +20,3 @@ function hasPermission(moduleName, role, permissionType) {
         }
     }
 }
-console.log(hasPermission('getUsers', 'head-trainer', 'read'));
-// console.log("\n");
-// console.log(hasPermission('getUsers', 'trainer', 'read'));
-// console.log(hasPermission('getUsers', 'head-trainer', 'delete'));
-// console.log(hasPermission('getUsers', 'trainee', 'write'));
-// console.log(hasPermission('getUsers', 'trainee', 'delete'));
-// console.log(hasPermission('getUsers', 'trainer', 'write'));
