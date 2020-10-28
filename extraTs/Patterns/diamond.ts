@@ -1,4 +1,4 @@
-export default function Diamond(n: number) {
+export default function Diamond(n: number): void {
     let pattern: string = '';
     let space: number = n - 1;
 

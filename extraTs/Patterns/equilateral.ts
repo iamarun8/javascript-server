@@ -1,5 +1,5 @@
 
-export default function equilateral(n: number) {
+export default function equilateral(n: number): void {
     let pattern: string = '';
     let space: number = n - 1;
 

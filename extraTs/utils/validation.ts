@@ -1,8 +1,8 @@
 import { IUsers } from '../interfaces';
 import ValidateEmail  from './helpers';
 
-const valid = [];
-const invalid = [];
+const valid: IUsers[] = [];
+const invalid: IUsers[] = [];
 export default function ValidateUser(users: IUsers []): void {
     for ( const i of users ) {
         if (ValidateEmail(i.traineeEmail) && ValidateEmail(i.reviewerEmail)) {
