@@ -7,13 +7,12 @@ class Server {
     }
 
     bootstrap(){
-        this.setupRoutes;
+        this.setupRoutes();
         return this;
     }
 
     setupRoutes(){
         const { app } = this;
-        console.log(app);
         app.get('/health-check', (req, res, next) => {
             res.send('I am OK');
         });
@@ -22,7 +21,6 @@ class Server {
 
     run(){
         const { app, config: { PORT } } = this;
-        console.log("port",PORT);
         app.listen(PORT, (err) => {
             if(err){
                 console.log(err);
