@@ -1,13 +1,17 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { notFoundHandler, errorHandler } from './libs/routes'
+import { notFoundHandler, errorHandler } from './libs/routes';
 import { IConfig } from './config/IConfig';
+import route from './router';
 
 class Server {
     app
-    constructor(private config: IConfig)
+    constructor(private config: IConfig )
     {
-        this.app = express()
+        this.app = express();
+    }
+    public initBodyParser() {
+        this.app.use(bodyParser.json());
     }
 
     bootstrap(){
@@ -17,23 +21,19 @@ class Server {
     }
 
     public setupRoutes() {
-        this.app.use((req, res, next) => {
-            console.log(req.body);
-            next()
-        })
-
+       
         this.app.use('/health-check', (req, res, next) => {
             console.log("Inside Second Middleware")
             res.send('I am OK');
+            next()
         });
+
+        this.app.use('/api', route);
 
         this.app.use(notFoundHandler);
         
         this.app.use(errorHandler);
-    }
-
-    public initBodyParser() {
-        this.app.use(bodyParser.json());
+        return this;
     }
 
     run(){
