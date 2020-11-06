@@ -3,21 +3,16 @@ export default (config) => (req, res, next) => {
     console.log('Inside ValidationHandler Middleware');
     console.log('body -->', req.body);
     console.log('query -->', req.query);
-    // console.log('object length :',Object.keys(req.query).length);
+
     const keys = Object.keys(config);
-    // console.log('This is the keys :-->', keys);
 
     keys.forEach((key) => {
         const obj = config[key];
-        // console.log('Object structure is :-->', obj);
         console.log('key is :', key);
-        const values = obj.in.map((val) => {
+        const [values] = obj.in.map((val) => {
             return req[val][key];
         });
-        console.log('values is :', values);
-        // console.log('arrays of key : ', Object.keys(req[obj.in]));
-        // console.log('Object length : ', Object.keys(req[obj.in]).length);
-
+     
         // for Body and Query
         if (Object.keys(req[obj.in]).length === 0) {
             errors.push({
@@ -28,9 +23,8 @@ export default (config) => (req, res, next) => {
         }
 
         // for required
-        // console.log('obj required : ', obj.required);
         if (obj.required) {
-            if (isNull(values[0])) {
+            if (isNull(values)) {
                 errors.push({
                     key: { key },
                     location: obj.in,
@@ -38,20 +32,20 @@ export default (config) => (req, res, next) => {
                 });
             }
         }
+
         // for default
         else {
             console.log("Default : ", obj.default);
             if (obj.default) {
-                if (isNull(values[0])) {
-                    values[0] === obj.default;
+                if (isNull(values)) {
+                    values === obj.default;
                 }
             }
         }
 
         // for string
-        // console.log('string is : ', obj.string);
         if (obj.string) {
-            if (!(typeof (values[0]) === 'string')) {
+            if (!(typeof (values) === 'string')) {
                 errors.push({
                     key: { key },
                     location: obj.in,
@@ -61,9 +55,8 @@ export default (config) => (req, res, next) => {
         }
 
         // for object
-        // console.log('Object is : ', obj.isObject);
         if (obj.isObject) {
-            if (!(typeof (values[0]) === 'object')) {
+            if (!(typeof (values) === 'object')) {
                 errors.push({
                     key: { key },
                     location: obj.in,
@@ -73,10 +66,9 @@ export default (config) => (req, res, next) => {
         }
 
         // for regex
-        // console.log('Regex is : ', obj.regex);
         if (obj.regex) {
             const regex = obj.regex;
-            if (!regex.test(values[0])) {
+            if (!regex.test(values)) {
                 errors.push({
                     key: { key },
                     location: obj.in,
@@ -85,12 +77,9 @@ export default (config) => (req, res, next) => {
             }
         }
 
-        
-        
         // for number
-        // console.log('number : ', obj.number);
         if (obj.number) {
-            if (isNaN(values[0]) || values[0] === undefined) {
+            if (isNaN(values) || values === undefined) {
                 errors.push({
                     key: { key },
                     location: obj.in,
