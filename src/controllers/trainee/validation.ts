@@ -39,7 +39,7 @@ const config = {
         skip: 
         {
             required: false,
-            default: 0,
+            default: 10,
             number: true,
             in: ['query'],
             errorMessage: 'Skip is invalid',
@@ -47,7 +47,7 @@ const config = {
         limit: 
         {
             required: false,
-            default: 10,
+            default: 20,
             number: true,
             in: ['query'],
             errorMessage: 'Limit is invalid',
