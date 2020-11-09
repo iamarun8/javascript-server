@@ -56,7 +56,7 @@ export default (config) => (req, res, next) => {
             // if required is -> true check for regex
             // console.log("is regex ->",obj.regex);
             if (obj.regex) {
-                console.log("Inside regex function",values);
+                // console.log("Inside regex function",values);
                 const regex = obj.regex;
                 if (!regex.test(values)) {
                     errors.push({
