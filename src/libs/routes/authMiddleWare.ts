@@ -3,13 +3,22 @@ import hasPermission from './permissions';
 
 export default (module: any, permissionType: string) => (req, res, next) => {
     try {
+        let token, decodedUser
         console.log("The config is", module, permissionType);
     
-        console.log("Header is",req.headers['authorization'])
-        const token = req.headers['authorization']
-        const decodedUser = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456')
+        try{
+            console.log("Header is",req.headers['authorization'])
+            token = req.headers['authorization']
+            decodedUser = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456')
+            console.log('User', decodedUser);    
+        }
+        catch(err){
+            next({
+                error: 'Unauthorised',
+                code: 403
+            });
+        }
     
-        console.log('User', decodedUser);        
         const result = hasPermission(module, decodedUser.role, permissionType);
         if(result == true)
         {
@@ -18,8 +27,8 @@ export default (module: any, permissionType: string) => (req, res, next) => {
         }
         else{
             next({
-                message: 'Unauthorised',
-                status: 403
+                error: 'Unauthorised',
+                code: 403
             });
         
         }
@@ -27,7 +36,7 @@ export default (module: any, permissionType: string) => (req, res, next) => {
 
     catch(err){
         next({
-            message: err
+            error: err
         });
     }
 }
