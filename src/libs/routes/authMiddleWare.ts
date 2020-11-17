@@ -36,7 +36,8 @@ export default (module: any, permissionType: string) => (req, res, next) => {
 
     catch(err){
         next({
-            error: err
+            error: err,
+            code: 403
         });
     }
 }
