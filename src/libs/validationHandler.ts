@@ -81,7 +81,7 @@ export default (config) => (req, res, next) => {
         }
 
         if (!obj.required) {
-            console.log("Default : ", obj.default);
+            // console.log("Default : ", obj.default);
             if (obj.default) {
                 if (isNull(values)) {
                     values = obj.default;
