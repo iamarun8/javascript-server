@@ -4,6 +4,7 @@ import { notFoundHandler, errorHandler } from './libs/routes';
 import { IConfig } from './config/IConfig';
 import route from './router';
 import Database from './libs/Database';
+import seedData from './libs/seedData';
 
 class Server {
     app
@@ -46,7 +47,7 @@ class Server {
                         console.log(err);
                     }
                     console.log('App is Running on', PORT);
-                    Database.disconnect();
+                    seedData();
                 })
             })
             .catch(err => console.log(err)); 
