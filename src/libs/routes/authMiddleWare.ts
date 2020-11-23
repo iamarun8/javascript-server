@@ -1,15 +1,17 @@
 import * as jwt from 'jsonwebtoken';
 import hasPermission from './permissions';
+import  config  from '../../config/configuration'
+import { Request, Response, NextFunction } from 'express';
 
-export default (module: any, permissionType: string) => (req, res, next) => {
+export default (module: any, permissionType: string) => (req: Request, res: Response, next: NextFunction) => {
     try {
         let token, decodedUser
-        console.log("The config is", module, permissionType);
+        console.log("The config is :", module, permissionType);
     
         try{
             console.log("Header is",req.headers['authorization'])
             token = req.headers['authorization']
-            decodedUser = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456')
+            decodedUser = jwt.verify(token, config.PRIVATE_KEY).result;
             console.log('User', decodedUser);    
         }
         catch(err){
