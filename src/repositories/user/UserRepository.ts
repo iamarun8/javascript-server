@@ -8,6 +8,10 @@ class UserRepository {
         return String(mongoose.Types.ObjectId());
     }
 
+    public  findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return userModel.findOne(query).lean();
+    }
+
     public create(data): Promise<IUserModel> {
         console.log('UserRepository create', data);
         const id = UserRepository.generateObjectID();

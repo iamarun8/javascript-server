@@ -6,12 +6,6 @@ import config from './validation';
 const UserRouter = express.Router();
 
 
-UserRouter.route('/')
-    .get(UserController.get)
-    .post(UserController.create)
-    .put(UserController.update)
-    .delete(UserController.delete);
-
 UserRouter.route('/me')
     .get(authmiddleware('getUsers' ,'read'), UserController.me);
 
