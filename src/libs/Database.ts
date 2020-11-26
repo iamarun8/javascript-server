@@ -11,6 +11,7 @@ class Database {
                     reject(err);
                     return;
                 }
+                seedData();
                 resolve(null);
             })
 
