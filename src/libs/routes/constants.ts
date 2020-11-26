@@ -1,4 +1,5 @@
-export const permissions = {
+import { Ipermission, IUsers } from './interfaces';
+export const permissions: Ipermission = {
     'getUsers': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
@@ -7,7 +8,7 @@ export const permissions = {
     }
 }
 
-export const users = [
+export const users: IUsers[] = [
     {
         traineeEmail: 'trainee1@@successive.tech',
         reviewerEmail: 'reviewer1@successive.tech',

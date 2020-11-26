@@ -1,18 +1,16 @@
 import * as mongoose from 'mongoose';
-import { stringifyConfiguration } from 'tslint/lib/configuration';
 
 class UserSchema extends mongoose.Schema {
-    
-    constructor(collection: any) {
+    constructor(collection) {
         const baseSchema = Object.assign({
             _id: String,
             name: String,
             email: String,
             role: String,
-            password: String,
+            password: String
         });
-        super(baseSchema,collection);
+        super(baseSchema, collection);
     }
 }
 
-export default UserSchema
+export default UserSchema;

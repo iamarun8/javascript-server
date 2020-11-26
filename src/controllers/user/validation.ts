@@ -68,6 +68,22 @@ const config = {
             isObject: true,
             custom: function (dataToUpdate) { },
         }
+    },
+
+    login: 
+    {
+        email:
+        {
+            required: true,
+            string: true,
+            in: ['body']
+        },
+        password:
+        {
+            required: true,
+            string: true,
+            in: ['body']
+        }
     }
 }
 

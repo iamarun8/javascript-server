@@ -2,14 +2,19 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 
-export default class UserRepository {
-    public static generateObjectId() {
+
+class UserRepository {
+    public static generateObjectID() {
         return String(mongoose.Types.ObjectId());
     }
 
-    public create(data: any): Promise<IUserModel> {
-        console.log('userRepository:: create', data);
-        const id = UserRepository.generateObjectId();
+    public  findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
+        return userModel.findOne(query).lean();
+    }
+
+    public create(data): Promise<IUserModel> {
+        console.log('UserRepository create', data);
+        const id = UserRepository.generateObjectID();
         const model = new userModel({
             _id: id,
             ...data,
@@ -21,3 +26,4 @@ export default class UserRepository {
         return userModel.countDocuments();
     }
 }
+export default new UserRepository();
