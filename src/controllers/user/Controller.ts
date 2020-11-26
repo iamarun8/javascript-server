@@ -14,9 +14,9 @@ class UserController {
 
     get(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside get method of Trainee controller");
+            console.log("Inside get method of User controller");
             res.send({
-                message: "Trainee fetched Successfully",
+                message: "User fetched Successfully",
                 data: [
                     {
                         name: "Arun",
@@ -31,9 +31,9 @@ class UserController {
 
     create(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside create method of Trainee controller");
+            console.log("Inside create method of User controller");
             res.send({
-                message: "Trainee created Successfully",
+                message: "User created Successfully",
                 data: {
                     name: "Lakshay",
                     address: "Ghaziabad"
@@ -46,9 +46,9 @@ class UserController {
 
     update(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside update method of Trainee controller");
+            console.log("Inside update method of User controller");
             res.send({
-                message: "Trainee updated Successfully",
+                message: "User updated Successfully",
                 data: {
                     name: "Rudraksh",
                     address: "Greater Noida"
@@ -61,9 +61,9 @@ class UserController {
 
     delete(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside delete method of Trainee controller");
+            console.log("Inside delete method of User controller");
             res.send({
-                message: "Trainee deleted Successfully",
+                message: "User deleted Successfully",
                 data: {
                     name: "Monty",
                     address: "Delhi"

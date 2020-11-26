@@ -47,7 +47,6 @@ class Server {
                         console.log(err);
                     }
                     console.log('App is Running on', PORT);
-                    seedData();
                 })
             })
             .catch(err => console.log(err)); 
