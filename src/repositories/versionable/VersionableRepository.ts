@@ -66,7 +66,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             return null;
         }
         console.log('Data inside update', data);
-        const newData = Object.assign(JSON.parse(JSON.stringify(prev)), data);
+        const dataToUpdate = data.dataToUpdate;
+        const newData = Object.assign(JSON.parse(JSON.stringify(prev)), dataToUpdate);
         console.log('new Data', newData);
         newData._id = VersioningRepository.generateObjectId();
         delete newData.deletedAt;

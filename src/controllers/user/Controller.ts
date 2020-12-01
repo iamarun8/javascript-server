@@ -23,18 +23,13 @@ class UserController {
         try {
             console.log("Inside get method of User controller");
             this.userRepository.find({ deletedAt: undefined }, {}, {})
-                .then((res) => {
-                    console.log('Response is', res);
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    res.send({
+                        message: "User fetched Successfully",
+                        data: resp
+                    });
                 })
-            res.send({
-                message: "User fetched Successfully",
-                data: [
-                    {
-                        name: "Arun",
-                        address: "Noida"
-                    }
-                ]
-            });
         } catch (err) {
             console.log("Inside err", err);
         }
@@ -44,13 +39,13 @@ class UserController {
         try {
             console.log("Inside create method of User controller");
             this.userRepository.create(req.body)
-                .then((res) => {
-                    console.log('Response is', res);
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    res.send({
+                        message: "User created Successfully",
+                        data: resp
+                    });
                 })
-            res.send({
-                message: "User created Successfully",
-                data: req.body
-            });
         } catch (err) {
             console.log("Inside err", err);
         }
@@ -60,14 +55,15 @@ class UserController {
         try {
             console.log("Inside update method of User controller");
             console.log("in update api : ",req.body.dataToUpdate);
-            this.userRepository.update(req.body.dataToUpdate)
+            const data = { originalId: req.body.id, dataToUpdate: req.body.dataToUpdate }
+            this.userRepository.update(data)
                 .then((resp) => {
                     console.log('Response is', resp);
+                    res.send({
+                        message: "User updated Successfully",
+                        data: resp
+                    });
                 })
-            res.send({
-                message: "User updated Successfully",
-                data: req.body.dataToUpdate
-            });
         } catch (err) {
             console.log("Inside err", err);
         }
@@ -78,13 +74,13 @@ class UserController {
             console.log("Inside delete method of User controller");
             console.log('id', req.params.id, this);
             this.userRepository.delete(req.params.id)
-                .then((res) => {
-                    console.log('Response is', res);
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    res.send({
+                        message: "User deleted Successfully",
+                        data: resp
+                    });
                 })
-            res.send({
-                message: "User deleted Successfully",
-                data: req.body
-            });
         } catch (err) {
             console.log("Inside err", err);
         }
