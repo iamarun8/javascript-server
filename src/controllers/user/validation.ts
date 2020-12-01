@@ -1,25 +1,44 @@
 const config = {
     create:
     {
-        id:
-        {
-            required: true,
-            string: true,
-            in: ['body'],
-            custom: function (value) {
-                console.log('Value', value);
-                throw {
-                    error: 'Error Occured',
-                    message: 'Message'
-                }
-            }
-        },
+        // id:
+        // {
+        //     required: true,
+        //     string: true,
+        //     in: ['body'],
+        //     custom: function (value) {
+        //         console.log('Value', value);
+        //         throw {
+        //             error: 'Error Occured',
+        //             message: 'Message'
+        //         }
+        //     }
+        // },
         name:
         {
             required: true,
-            regex: /^[0-9a-zA-Z]+$/,
+            // regex: /^[0-9a-zA-Z]+$/,
+            string: true,
             in: ['body'],
             errorMessage: 'Name is required',
+        },
+        email: {
+            required: true,
+            regex: '',
+            in: ['body'],
+            errorMessage: 'Email is required',
+        },
+        role: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Role is required',
+        },
+        password: {
+            required: true,
+            alphaNumeric: true,
+            in: ['body'],
+            errorMessage: 'Password is required',
         }
     },
 

@@ -3,6 +3,7 @@ import { userModel } from '../../repositories/user/UserModel';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../../IRequest';
 import config from '../../config/configuration'
+import UserRepository from '../../repositories/user/UserRepository';
 
 class UserController {
     static instance: UserController
@@ -16,63 +17,85 @@ class UserController {
         return UserController.instance;
     }
 
-    get(req: Request, res: Response, next: NextFunction) {
+    userRepository: UserRepository = new UserRepository();
+
+    get = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside get method of Trainee controller");
-            res.send({
-                message: "Trainee fetched Successfully",
-                data: [
-                    {
-                        name: "Arun",
-                        address: "Noida"
+            console.log("Inside get method of User controller");
+            this.userRepository.find({ deletedAt: undefined }, {}, {})
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    res.send({
+                        message: "User fetched Successfully",
+                        data: resp
+                    });
+                })
+        } catch (err) {
+            console.log("Inside err", err);
+        }
+    }
+
+    create = (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log("Inside create method of User controller");
+            this.userRepository.create(req.body)
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    res.send({
+                        message: "User created Successfully",
+                        data: resp
+                    });
+                })
+        } catch (err) {
+            console.log("Inside err", err);
+        }
+    }
+
+    update = (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log("Inside update method of User controller");
+            console.log("in update api : ", req.body.dataToUpdate);
+            const data = { originalId: req.body.id, dataToUpdate: req.body.dataToUpdate }
+            this.userRepository.update(data)
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    if (resp) {
+                        res.send({
+                            message: "User updated Successfully",
+                            data: resp
+                        });
                     }
-                ]
-            });
+                    else {
+                        next({
+                            message: 'Error in Updating',
+                            code: 404
+                        })
+                    }
+                })
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    create(req: Request, res: Response, next: NextFunction) {
+    delete = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside create method of Trainee controller");
-            res.send({
-                message: "Trainee created Successfully",
-                data: {
-                    name: "Lakshay",
-                    address: "Ghaziabad"
-                }
-            });
-        } catch (err) {
-            console.log("Inside err", err);
-        }
-    }
-
-    update(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log("Inside update method of Trainee controller");
-            res.send({
-                message: "Trainee updated Successfully",
-                data: {
-                    name: "Rudraksh",
-                    address: "Greater Noida"
-                }
-            });
-        } catch (err) {
-            console.log("Inside err", err);
-        }
-    }
-
-    delete(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log("Inside delete method of Trainee controller");
-            res.send({
-                message: "Trainee deleted Successfully",
-                data: {
-                    name: "Monty",
-                    address: "Delhi"
-                }
-            });
+            console.log("Inside delete method of User controller");
+            this.userRepository.delete(req.params.id)
+                .then((resp) => {
+                    console.log('Response is', resp);
+                    if (resp != undefined) {
+                        res.send({
+                            message: "User deleted Successfully",
+                            data: resp
+                        });
+                    }
+                    else {
+                        next({
+                            message: 'No User Found',
+                            code: 404
+                        });
+                    }
+                })
         } catch (err) {
             console.log("Inside err", err);
         }
@@ -82,7 +105,8 @@ class UserController {
         try {
             const secretKey = config.PRIVATE_KEY;
             const { email, password } = req.body;
-
+            console.log('email is :---', email);
+            console.log('password is :---', password);
             userModel.findOne({ email: req.body.email }, (err, result) => {
                 if (result) {
                     if ((email === result.email) && (password === result.password)) {
@@ -122,6 +146,9 @@ class UserController {
             message: 'Authorized Successfully'
         });
     }
+
+
+
 
 }
 
