@@ -16,7 +16,7 @@ class UserController {
         UserController.instance = new UserController();
         return UserController.instance;
     }
-    
+
     userRepository: UserRepository = new UserRepository();
 
     get = (req: Request, res: Response, next: NextFunction) => {
@@ -54,15 +54,23 @@ class UserController {
     update = (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside update method of User controller");
-            console.log("in update api : ",req.body.dataToUpdate);
+            console.log("in update api : ", req.body.dataToUpdate);
             const data = { originalId: req.body.id, dataToUpdate: req.body.dataToUpdate }
             this.userRepository.update(data)
                 .then((resp) => {
                     console.log('Response is', resp);
-                    res.send({
-                        message: "User updated Successfully",
-                        data: resp
-                    });
+                    if (resp) {
+                        res.send({
+                            message: "User updated Successfully",
+                            data: resp
+                        });
+                    }
+                    else {
+                        next({
+                            message: 'Error in Updating',
+                            code: 404
+                        })
+                    }
                 })
         } catch (err) {
             console.log("Inside err", err);
@@ -72,14 +80,21 @@ class UserController {
     delete = (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside delete method of User controller");
-            console.log('id', req.params.id, this);
             this.userRepository.delete(req.params.id)
                 .then((resp) => {
                     console.log('Response is', resp);
-                    res.send({
-                        message: "User deleted Successfully",
-                        data: resp
-                    });
+                    if (resp != undefined) {
+                        res.send({
+                            message: "User deleted Successfully",
+                            data: resp
+                        });
+                    }
+                    else {
+                        next({
+                            message: 'No User Found',
+                            code: 404
+                        });
+                    }
                 })
         } catch (err) {
             console.log("Inside err", err);
@@ -90,8 +105,8 @@ class UserController {
         try {
             const secretKey = config.PRIVATE_KEY;
             const { email, password } = req.body;
-            console.log('email is :---',email);
-            console.log('password is :---',password);
+            console.log('email is :---', email);
+            console.log('password is :---', password);
             userModel.findOne({ email: req.body.email }, (err, result) => {
                 if (result) {
                     if ((email === result.email) && (password === result.password)) {
@@ -133,7 +148,7 @@ class UserController {
     }
 
 
-    
+
 
 }
 
