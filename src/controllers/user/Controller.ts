@@ -3,6 +3,7 @@ import { userModel } from '../../repositories/user/UserModel';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../../IRequest';
 import config from '../../config/configuration'
+import UserRepository from '../../repositories/user/UserRepository';
 
 class UserController {
     static instance: UserController
@@ -15,12 +16,18 @@ class UserController {
         UserController.instance = new UserController();
         return UserController.instance;
     }
+    
+    userRepository: UserRepository = new UserRepository();
 
-    get(req: Request, res: Response, next: NextFunction) {
+    get = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside get method of Trainee controller");
+            console.log("Inside get method of User controller");
+            this.userRepository.find({ deletedAt: undefined }, {}, {})
+                .then((res) => {
+                    console.log('Response is', res);
+                })
             res.send({
-                message: "Trainee fetched Successfully",
+                message: "User fetched Successfully",
                 data: [
                     {
                         name: "Arun",
@@ -33,45 +40,50 @@ class UserController {
         }
     }
 
-    create(req: Request, res: Response, next: NextFunction) {
+    create = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside create method of Trainee controller");
+            console.log("Inside create method of User controller");
+            this.userRepository.create(req.body)
+                .then((res) => {
+                    console.log('Response is', res);
+                })
             res.send({
-                message: "Trainee created Successfully",
-                data: {
-                    name: "Lakshay",
-                    address: "Ghaziabad"
-                }
+                message: "User created Successfully",
+                data: req.body
             });
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    update(req: Request, res: Response, next: NextFunction) {
+    update = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside update method of Trainee controller");
+            console.log("Inside update method of User controller");
+            console.log("in update api : ",req.body.dataToUpdate);
+            this.userRepository.update(req.body.dataToUpdate)
+                .then((resp) => {
+                    console.log('Response is', resp);
+                })
             res.send({
-                message: "Trainee updated Successfully",
-                data: {
-                    name: "Rudraksh",
-                    address: "Greater Noida"
-                }
+                message: "User updated Successfully",
+                data: req.body.dataToUpdate
             });
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    delete(req: Request, res: Response, next: NextFunction) {
+    delete = (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside delete method of Trainee controller");
+            console.log("Inside delete method of User controller");
+            console.log('id', req.params.id, this);
+            this.userRepository.delete(req.params.id)
+                .then((res) => {
+                    console.log('Response is', res);
+                })
             res.send({
-                message: "Trainee deleted Successfully",
-                data: {
-                    name: "Monty",
-                    address: "Delhi"
-                }
+                message: "User deleted Successfully",
+                data: req.body
             });
         } catch (err) {
             console.log("Inside err", err);
@@ -82,7 +94,8 @@ class UserController {
         try {
             const secretKey = config.PRIVATE_KEY;
             const { email, password } = req.body;
-
+            console.log('email is :---',email);
+            console.log('password is :---',password);
             userModel.findOne({ email: req.body.email }, (err, result) => {
                 if (result) {
                     if ((email === result.email) && (password === result.password)) {
@@ -122,6 +135,9 @@ class UserController {
             message: 'Authorized Successfully'
         });
     }
+
+
+    
 
 }
 

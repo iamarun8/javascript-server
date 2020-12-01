@@ -13,9 +13,9 @@ export default (module: any, permissionType: string) => async (req: Request, res
 
         decodeUser = jwt.verify(token, config.PRIVATE_KEY);
         console.log('decoderUser is :', decodeUser);
-
-        const data = await UserRepositories.findOne({ email: decodeUser.result.email, password: decodeUser.result.password });
-
+        console.log('email in authMiddleware-----------',decodeUser.result.email);
+        console.log('password in authMiddleware-----------',decodeUser.result.password);
+        const data = await UserRepositories.findOne({ email: decodeUser.result.email, password: decodeUser.result.password })
         if (!data) {
             next({
                 message: 'User is empty',

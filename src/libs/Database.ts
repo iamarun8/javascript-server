@@ -4,7 +4,7 @@ class Database {
 
     static open(mongoURL) {
         return new Promise((resolve, reject) => {
-            console.log('Inside open method');
+            console.log('Inside open method of Database.ts file--');
             mongoose.connect(mongoURL, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
                 if (err) {
                     console.log(err);
