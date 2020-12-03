@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { userModel } from '../../repositories/user/UserModel';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../../IRequest';
 import config from '../../config/configuration'
 import UserRepository from '../../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import { userModel } from '../../repositories/user/UserModel';
 
 class UserController {
     static instance: UserController
@@ -19,45 +20,40 @@ class UserController {
 
     userRepository: UserRepository = new UserRepository();
 
-    get = (req: Request, res: Response, next: NextFunction) => {
+    get = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside get method of User controller");
-            this.userRepository.find({ deletedAt: undefined }, {}, {})
-                .then((resp) => {
-                    console.log('Response is', resp);
-                    res.send({
-                        message: "User fetched Successfully",
-                        data: resp
-                    });
-                })
+            const resp = await this.userRepository.find({ deletedAt: undefined }, {}, {})
+            console.log('Response is', resp);
+            res.send({
+                message: "User fetched Successfully",
+                data: resp
+            });
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    create = (req: Request, res: Response, next: NextFunction) => {
+    create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside create method of User controller");
-            this.userRepository.create(req.body)
-                .then((resp) => {
+            const resp = await this.userRepository.create(req.body)
                     console.log('Response is', resp);
                     res.send({
                         message: "User created Successfully",
                         data: resp
                     });
-                })
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    update = (req: Request, res: Response, next: NextFunction) => {
+    update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside update method of User controller");
             console.log("in update api : ", req.body.dataToUpdate);
             const data = { originalId: req.body.id, dataToUpdate: req.body.dataToUpdate }
-            this.userRepository.update(data)
-                .then((resp) => {
+            const resp = await this.userRepository.update(data)
                     console.log('Response is', resp);
                     if (resp) {
                         res.send({
@@ -71,17 +67,15 @@ class UserController {
                             code: 404
                         })
                     }
-                })
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    delete = (req: Request, res: Response, next: NextFunction) => {
+    delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log("Inside delete method of User controller");
-            this.userRepository.delete(req.params.id)
-                .then((resp) => {
+            const resp = await this.userRepository.delete(req.params.id)
                     console.log('Response is', resp);
                     if (resp != undefined) {
                         res.send({
@@ -95,22 +89,19 @@ class UserController {
                             code: 404
                         });
                     }
-                })
         } catch (err) {
             console.log("Inside err", err);
         }
     }
 
-    login(req: Request, res: Response, next: NextFunction) {
+    login = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const secretKey = config.PRIVATE_KEY;
             const { email, password } = req.body;
-            console.log('email is :---', email);
-            console.log('password is :---', password);
-            userModel.findOne({ email: req.body.email }, (err, result) => {
-                if (result) {
-                    if ((email === result.email) && (password === result.password)) {
-                        const token = jwt.sign({ result }, secretKey);
+            await userModel.findOne({ email: req.body.email }, (err, result) => {
+                if (result) {                    
+                    if ((email === result.email) && bcrypt.compareSync(password, result.password)) {
+                        const token = jwt.sign({ result }, secretKey, { expiresIn: '15m' });
                         res.send({
                             data: token,
                             message: 'Login Permited',
@@ -146,10 +137,6 @@ class UserController {
             message: 'Authorized Successfully'
         });
     }
-
-
-
-
 }
 
 export default UserController.getInstance();

@@ -4,5 +4,6 @@ export interface IConfig {
     NODE_ENV: string;
     MONGO_URL: string;
     PRIVATE_KEY: string;
+    PASSWORD: string;
 }
 
