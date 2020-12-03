@@ -41,15 +41,12 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
 
     public async delete(id: string): Promise<D> {
         const previous = await this.findOne({ originalId: id, deletedAt: undefined })
-            // .catch(error => { throw error })
         console.log('previous data', id);
         if (previous) {
             return await this.invalidate(id)
-            // .catch(error => { throw error })
         }
     }
     
-
     public invalidate(id: string): DocumentQuery<D, D> {
         const query: any = { originalId: id, deletedAt: { $exists: false } };
         const data: any = { deletedAt: Date.now() };

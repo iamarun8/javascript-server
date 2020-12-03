@@ -15,7 +15,6 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return String(mongoose.Types.ObjectId());
     }
 
-
     public find(query, projection?: any, options?: any): any {
         return userModel.find(query, projection, options);
     }
@@ -23,21 +22,6 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
         return userModel.findOne(query).lean();
     }
-
-    // public async create(data): Promise<IUserModel> {
-    //     console.log('UserRepository create', data);
-    //     const salt = bcrypt.genSaltSync(10);
-    //     const hash = bcrypt.hashSync(data.password, salt);
-    //     data.password = hash;
-    //     const id = await UserRepository.generateObjectID();
-    //     const model = new userModel({
-    //         _id: id,
-    //         ...data,
-    //     });
-    //     return model.save();
-    //     // return super.create(data);
-    // }
-
 
     public async create(data: any): Promise<IUserModel> {
         const salt = bcrypt.genSaltSync(10);
@@ -60,4 +44,3 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.update(data);
     }
 }
-// export default new UserRepository();

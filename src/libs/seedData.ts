@@ -1,10 +1,7 @@
 import UserRepository from '../repositories/user/UserRepository';
-import * as bcrypt from 'bcrypt';
 import config from '../config/configuration';
 
 const userRepository: UserRepository = new UserRepository()
-const salt = bcrypt.genSaltSync(10);
-const hashedPassword = bcrypt.hashSync(config.PASSWORD, salt);
 
 export default  () => {
     userRepository.count()
@@ -15,13 +12,13 @@ export default  () => {
                     name: 'head-trainer',
                     email: 'headtrainer@successivetech',
                     role: 'head-trainer',
-                    password: hashedPassword
+                    password: config.PASSWORD                  
                 });
                 userRepository.create({
                     name: 'trainer',
                     email: 'trainer@successivetech',
                     role: 'trainer',
-                    password: hashedPassword
+                    password: config.PASSWORD
                 });
             }
         })

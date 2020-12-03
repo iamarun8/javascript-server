@@ -94,18 +94,14 @@ class UserController {
         }
     }
 
-
     login = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const secretKey = config.PRIVATE_KEY;
             const { email, password } = req.body;
             await userModel.findOne({ email: req.body.email }, (err, result) => {
-                if (result) {
-                    console.log('result.password =', result.password, '- and - password =', password);
-                    console.log('bcrypt password =>', bcrypt.compareSync(password, result.password));
-                    // if ((email === result.email) && bcrypt.compareSync(password, result.password)) {
-                    if ((email === result.email) && (password === result.password)) {
-                        const token = jwt.sign({ result }, secretKey, { expiresIn: '20m' });
+                if (result) {                    
+                    if ((email === result.email) && bcrypt.compareSync(password, result.password)) {
+                        const token = jwt.sign({ result }, secretKey, { expiresIn: '15m' });
                         res.send({
                             data: token,
                             message: 'Login Permited',
@@ -141,10 +137,6 @@ class UserController {
             message: 'Authorized Successfully'
         });
     }
-
-
-
-
 }
 
 export default UserController.getInstance();
