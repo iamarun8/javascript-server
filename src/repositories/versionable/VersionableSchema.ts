@@ -25,7 +25,7 @@ class VersionableSchema extends mongoose.Schema {
             },
             updatedAt: {
                 required: false,
-                type: String,
+                type: Date,
             },
             updatedBy: {
                 required: false,

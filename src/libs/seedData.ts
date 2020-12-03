@@ -1,6 +1,12 @@
-import userRepository from '../repositories/user/UserRepository';
+import UserRepository from '../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import config from '../config/configuration';
 
-export default () => {
+const userRepository: UserRepository = new UserRepository()
+const salt = bcrypt.genSaltSync(10);
+const hashedPassword = bcrypt.hashSync(config.PASSWORD, salt);
+
+export default  () => {
     userRepository.count()
         .then(res => {
             if (res === 0) {
@@ -9,13 +15,13 @@ export default () => {
                     name: 'head-trainer',
                     email: 'headtrainer@successivetech',
                     role: 'head-trainer',
-                    password: 'training@123'
+                    password: hashedPassword
                 });
                 userRepository.create({
                     name: 'trainer',
                     email: 'trainer@successivetech',
                     role: 'trainer',
-                    password: 'training@123'
+                    password: hashedPassword
                 });
             }
         })

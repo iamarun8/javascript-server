@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 import { DocumentQuery, Query } from 'mongoose';
 
+console.log('Inside VersionableRepository')
+
 export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
         return String(mongoose.Types.ObjectId());
@@ -20,7 +22,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             originalId: id
         });
         return await model.save()
-        .catch(error => { throw error })
     }
 
     public count(query: any): Query<number> {
@@ -40,11 +41,11 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
 
     public async delete(id: string): Promise<D> {
         const previous = await this.findOne({ originalId: id, deletedAt: undefined })
-            .catch(error => { throw error })
+            // .catch(error => { throw error })
         console.log('previous data', id);
         if (previous) {
             return await this.invalidate(id)
-            .catch(error => { throw error })
+            // .catch(error => { throw error })
         }
     }
     
