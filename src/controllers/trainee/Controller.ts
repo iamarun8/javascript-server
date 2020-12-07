@@ -15,19 +15,51 @@ class TraineeController {
 
     userRepository: UserRepository = new UserRepository();
 
-    get = async (req: Request, res: Response, next: NextFunction) => {
+    // get = async (req: Request, res: Response, next: NextFunction) => {
+    //     try {
+    //         console.log("Inside get method of Trainee controller");
+    //         const resp = await this.userRepository.find({ deletedAt: undefined }, {}, {})
+    //         console.log('Response is', resp);
+    //         res.send({
+    //             message: "Trainee fetched Successfully",
+    //             data: resp
+    //         });
+    //     } catch (err) {
+    //         console.log("Inside err", err);
+    //     }
+    // }
+
+    public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside get method of Trainee controller");
-            const resp = await this.userRepository.find({ deletedAt: undefined }, {}, {})
-            console.log('Response is', resp);
-            res.send({
-                message: "Trainee fetched Successfully",
-                data: resp
+            const userRepository = new UserRepository();
+            const { skip, limit, sort } = req.query;
+            // let sort: any;
+            // console.log('------information------', req.query.sort);
+            // if (req.query.sort === 'email'){
+            //     sort = {email: -1};
+            // }
+            // const trainee = await this.userRepository.list1('trainee', sort);
+            // console.log('------infor--------', this.userRepository.getAll);
+            
+            const extractedData = await userRepository.getAll({}, {},
+                {
+                    limit: Number(limit),
+                    skip: Number(skip),
+                    sort: { [String(sort)]: 1 },
+                });
+
+            res.status(200).send({
+                message: 'trainee fetched successfully',
+                totalCount: await userRepository.count(),
+                count: extractedData.length,
+                data: [extractedData],
+                status: 'success',
             });
         } catch (err) {
-            console.log("Inside err", err);
+            console.log('error: ', err);
         }
     }
+
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {

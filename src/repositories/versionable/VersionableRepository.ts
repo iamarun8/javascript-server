@@ -30,6 +30,9 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public getAll(query, projection, options): DocumentQuery<D[], D> {
+        console.log('query -----------> ',query);
+        console.log('projection -----------> ',projection);
+        console.log('options -----------> ',options);
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }
