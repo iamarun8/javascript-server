@@ -33,19 +33,12 @@ class TraineeController {
         try {
             const userRepository = new UserRepository();
             const { skip, limit, sort } = req.query;
-            // let sort: any;
-            // console.log('------information------', req.query.sort);
-            // if (req.query.sort === 'email'){
-            //     sort = {email: -1};
-            // }
-            // const trainee = await this.userRepository.list1('trainee', sort);
-            // console.log('------infor--------', this.userRepository.getAll);
-            
             const extractedData = await userRepository.getAll({}, {},
                 {
                     limit: Number(limit),
                     skip: Number(skip),
                     sort: { [String(sort)]: 1 },
+                    collation: ({ locale: 'en' })
                 });
 
             res.status(200).send({

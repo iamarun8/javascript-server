@@ -70,13 +70,6 @@ const config = {
             in: ['query'],
             errorMessage: 'Limit is invalid',
         },
-        sort: 
-        {
-            required: false,
-            string: true,
-            in: ['query'],
-            errorMessage: 'Sort is invalid'
-        }
     },
     
     update: 
