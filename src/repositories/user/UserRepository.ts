@@ -16,7 +16,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     }
 
     public find(query, projection?: any, options?: any): any {
-        return userModel.find(query, projection, options);
+        return super.getAll(query, projection, options);
     }
 
     public static findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
@@ -32,6 +32,10 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
 
     public count() {
         return userModel.countDocuments();
+    }
+
+    public presentcount() {
+        return userModel.countDocuments({deletedAt: undefined});
     }
 
     public update(data: any): Promise<IUserModel> {

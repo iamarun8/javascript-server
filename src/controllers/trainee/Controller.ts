@@ -15,19 +15,47 @@ class TraineeController {
 
     userRepository: UserRepository = new UserRepository();
 
-    get = async (req: Request, res: Response, next: NextFunction) => {
+    // get = async (req: Request, res: Response, next: NextFunction) => {
+    //     try {
+    //         console.log("Inside get method of Trainee controller");
+    //         const resp = await this.userRepository.find({ deletedAt: undefined }, {}, {})
+    //         console.log('Response is', resp);
+    //         res.send({
+    //             message: "Trainee fetched Successfully",
+    //             data: resp
+    //         });
+    //     } catch (err) {
+    //         console.log("Inside err", err);
+    //     }
+    // }
+
+    public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Inside get method of Trainee controller");
-            const resp = await this.userRepository.find({ deletedAt: undefined }, {}, {})
-            console.log('Response is', resp);
-            res.send({
-                message: "Trainee fetched Successfully",
-                data: resp
+            const userRepository = new UserRepository();
+            const { skip, limit, sort } = req.query;
+            console.log('--skip--',skip)
+            console.log('--liit--',limit)
+            console.log('--sort--',sort)
+            const extractedData = await userRepository.getAll({}, {},
+                {
+                    limit: Number(limit),
+                    skip: Number(skip),
+                    sort: { [String(sort)]: 1 },
+                    collation: ({ locale: 'en' })
+                });
+
+            res.status(200).send({
+                message: 'trainee fetched successfully',
+                totalCount: await userRepository.presentcount(),
+                count: extractedData.length,
+                data: [extractedData],
+                status: 'success',
             });
         } catch (err) {
-            console.log("Inside err", err);
+            console.log('error: ', err);
         }
     }
+
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
