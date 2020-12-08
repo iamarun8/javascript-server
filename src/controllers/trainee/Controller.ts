@@ -33,6 +33,9 @@ class TraineeController {
         try {
             const userRepository = new UserRepository();
             const { skip, limit, sort } = req.query;
+            console.log('--skip--',skip)
+            console.log('--liit--',limit)
+            console.log('--sort--',sort)
             const extractedData = await userRepository.getAll({}, {},
                 {
                     limit: Number(limit),
@@ -43,7 +46,7 @@ class TraineeController {
 
             res.status(200).send({
                 message: 'trainee fetched successfully',
-                totalCount: await userRepository.count(),
+                totalCount: await userRepository.presentcount(),
                 count: extractedData.length,
                 data: [extractedData],
                 status: 'success',

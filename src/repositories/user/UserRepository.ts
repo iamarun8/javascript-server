@@ -34,6 +34,10 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return userModel.countDocuments();
     }
 
+    public presentcount() {
+        return userModel.countDocuments({deletedAt: undefined});
+    }
+
     public update(data: any): Promise<IUserModel> {
         console.log('UserRepository:: update', data);
         if (data.dataToUpdate.password) {
