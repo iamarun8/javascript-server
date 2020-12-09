@@ -1,30 +1,29 @@
 const config = {
     create:
     {
-        // id:
-        // {
-        //     required: true,
-        //     string: true,
-        //     in: ['body'],
-        //     custom: function (value) {
-        //         console.log('Value', value);
-        //         throw {
-        //             error: 'Error Occured',
-        //             message: 'Message'
-        //         }
-        //     }
-        // },
+        id:
+        {
+            required: true,
+            string: true,
+            in: ['body'],
+            custom: function (value) {
+                console.log('Value', value);
+                throw {
+                    error: 'Error Occured',
+                    message: 'Message'
+                }
+            }
+        },
         name:
         {
             required: true,
-            // regex: /^[0-9a-zA-Z]+$/,
             string: true,
             in: ['body'],
             errorMessage: 'Name is required',
         },
         email: {
             required: true,
-            regex: '',
+            regex: /^[0-9a-zA-Z]+.@successive.tech+$/,
             in: ['body'],
             errorMessage: 'Email is required',
         },

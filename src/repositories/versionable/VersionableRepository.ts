@@ -24,15 +24,12 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         return await model.save()
     }
 
-    public count(query: any): Query<number> {
+    public ccount(query: any): Query<number> {
         const finalQuery = { deletedAt: null, ...query };
         return this.model.countDocuments(finalQuery);
     }
 
     public getAll(query, projection, options): DocumentQuery<D[], D> {
-        console.log('query -----------> ',query);
-        console.log('projection -----------> ',projection);
-        console.log('options -----------> ',options);
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }
