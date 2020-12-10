@@ -4,7 +4,8 @@ import { notFoundHandler, errorHandler } from './libs/routes';
 import { IConfig } from './config/IConfig';
 import route from './router';
 import Database from './libs/Database';
-import seedData from './libs/seedData';
+import * as swagger_ui_express from 'swagger-ui-express';
+import * as swagger_doc from 'swagger-jsdoc';
 
 class Server {
     app
@@ -21,8 +22,33 @@ class Server {
         return this;
     }
 
-    public setupRoutes() {
+    swagger = () => {
+        const options = {
+            definition: {
+                info: {
+                    title: 'JavaScript Server Training',
+                    version: '1.0.0',
+                    description: "This is a sample server",
+                      
+                },
+                securityDefinitions: {
+                    Bearer: {
+                        type: 'apiKey',
+                        name: 'Authorization',
+                        in: 'headers'
+                    }
+                }
+            },
+            basePath: '/api',
+            swagger: '4.1',
+            apis: ['./src/controllers/**/routes.ts'],
+        };
+        const swagdoc = swagger_doc(options);
+        return swagdoc;
+    }
 
+    public setupRoutes() {
+        this.app.use('/swagger', swagger_ui_express.serve, swagger_ui_express.setup(this.swagger()));
         this.app.use('/health-check', (req, res, next) => {
             console.log("Inside Second Middleware")
             res.send('I am OK');
@@ -49,7 +75,7 @@ class Server {
                     console.log('App is Running on', PORT);
                 })
             })
-            .catch(err => console.log(err)); 
+            .catch(err => console.log(err));
     }
 }
 
