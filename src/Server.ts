@@ -6,6 +6,7 @@ import route from './router';
 import Database from './libs/Database';
 import * as swagger_ui_express from 'swagger-ui-express';
 import * as swagger_doc from 'swagger-jsdoc';
+import * as cors from 'cors';
 
 class Server {
     app
@@ -48,6 +49,7 @@ class Server {
     }
 
     public setupRoutes() {
+        this.app.use(cors());
         this.app.use('/swagger', swagger_ui_express.serve, swagger_ui_express.setup(this.swagger()));
         this.app.use('/health-check', (req, res, next) => {
             console.log("Inside Second Middleware")

@@ -10,13 +10,13 @@ export default  () => {
                 console.log('Data seeding in progress');
                 userRepository.create({
                     name: 'head-trainer',
-                    email: 'headtrainer@successivetech',
+                    email: 'headtrainer@successive.tech',
                     role: 'head-trainer',
                     password: config.PASSWORD                  
                 });
                 userRepository.create({
                     name: 'trainer',
-                    email: 'trainer@successivetech',
+                    email: 'trainer@successive.tech',
                     role: 'trainer',
                     password: config.PASSWORD
                 });
